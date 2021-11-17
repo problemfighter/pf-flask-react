@@ -31,14 +31,6 @@ __pycache__/
 instance/
 
 
-/source-module/*
-!/source-module/empty
-app-module/*
-
-
-pf-libraries
-user-interface
-
 
 node_modules
 *.lock

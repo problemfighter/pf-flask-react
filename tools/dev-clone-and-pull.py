@@ -3,6 +3,7 @@ import subprocess
 
 application_dir = "application"
 xyz12_lib_dir = "xyz12"
+user_interface = "pf-react-app"
 pf_flask_source = "pf-flask"
 
 
@@ -108,11 +109,28 @@ def pull_and_setup_application_modules():
                 pull_setup_project(path)
 
 
+ui_base_libraries = {
+    "dir": xyz12_lib_dir,
+    "repositories": {
+        user_interface: "https://github.com/problemfighter/pf-react-app.git",
+    }
+}
+
+
+def setup_user_interface():
+    clone_pull_setup(ui_base_libraries)
+    path = os.path.join(xyz12_lib_dir, user_interface)
+    if os.path.exists(path):
+        command = "bash dev-bismillah.sh"
+        execute_command(path, command)
+
+
 def start():
     clone_pull_setup(source_projects)
     pull_project("./")
     pull_and_setup_application_modules()
     configure_pf_flask_source()
+    setup_user_interface()
 
 
 if __name__ == '__main__':

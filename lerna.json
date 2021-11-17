@@ -1,0 +1,7 @@
+{
+  "packages": [
+    "xyz12/pf-react-app/pf-react-app/dev-libs/*",
+    "xyz12/pf-react-app/pf-react-app/frame-mod/*"
+  ],
+  "version": "1.0.0"
+}

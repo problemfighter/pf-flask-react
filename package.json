@@ -1,0 +1,28 @@
+{
+  "name": "pf-flask-react",
+  "version": "1.0.0",
+  "description": "Problem Fighter Flask React Application",
+  "main": "index.jsx",
+  "repository": "https://github.com/problemfighter/pf-flask-react",
+  "author": "Touhid Mia <hmtm.cse@gmail.com>",
+  "license": "Apache License 2.0",
+  "private": true,
+  "workspaces": [
+    "xyz12/pf-react-app/pf-react-app/dev-libs/*",
+    "xyz12/pf-react-app/pf-react-app/frame-mod/*"
+  ],
+  "scripts": {
+    "start-pra": "lerna run start-pra --stream",
+    "build-pra": "lerna run build-pra --stream",
+    "start-pfui": "lerna run start-pfui --stream",
+    "build-pfui": "lerna run build-pfui --stream",
+    "start-my-app": "lerna run start-my-app --stream",
+    "build-my-app": "lerna run build-my-app --stream"
+  },
+  "devDependencies": {
+    "lerna": "^4.0.0",
+    "webpack": "^5.58.2",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.3.1"
+  }
+}

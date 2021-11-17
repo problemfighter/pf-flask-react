@@ -5,6 +5,7 @@ from pf_flask.pff_app_config import PFFAppConfig
 
 base_path = os.path.abspath(os.path.dirname(__file__))
 config = PFFAppConfig()
+config.PORT = 1201
 config.set_base_dir(base_path)
 bismillah = Bismillah(__name__, config)
 
