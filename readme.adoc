@@ -1,0 +1,15 @@
+
+== How to Run on Development Computer
+
+* Clone the Project from : ``git clone https://github.com/problemfighter/pf-flask-react.git``
+* Create Virtual Environment ``python -m venv venv``
+* Run the Setup Script ``bash tools/prepare-dev.sh``
+* Run PF Flask Project
+```bash
+source venv/Scripts/activate
+python manage_app.py
+```
+* Run PF React Project
+```bash
+yarn start-pfr
+```
