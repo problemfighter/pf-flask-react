@@ -88,8 +88,9 @@ source_projects = {
 def configure_pf_flask_source():
     path = os.path.join(xyz12_lib_dir, pf_flask_source)
     if os.path.exists(path):
-        command = "bash tools/prepare-dev.sh"
+        command = "bash tools/prepare-dev.sh yes"
         execute_command(path, command)
+        execute_command(path, "python setup.py develop")
 
 
 def pull_and_setup_application_modules():

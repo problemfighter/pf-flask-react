@@ -20,5 +20,5 @@ fi
 
 source "$VENV"
 python tools/dev-clone-and-pull.py
-pip install -r dev-requirements.txt
-deactivate
+# pip install -r dev-requirements.txt
+# deactivate
