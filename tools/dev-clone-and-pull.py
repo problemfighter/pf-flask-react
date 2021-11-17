@@ -117,6 +117,16 @@ ui_base_libraries = {
 }
 
 
+def setup_internal_project():
+    path = xyz12_lib_dir
+    skip_projects = ['pf-flask', 'pf-react-app']
+    if os.path.exists(path):
+        for directory in os.listdir(path):
+            if directory not in skip_projects:
+                project_path = os.path.join(path, directory)
+                execute_command(project_path, "python setup.py develop")
+
+
 def setup_user_interface():
     clone_pull_setup(ui_base_libraries)
     path = os.path.join(xyz12_lib_dir, user_interface)
@@ -130,6 +140,7 @@ def start():
     pull_project("./")
     pull_and_setup_application_modules()
     configure_pf_flask_source()
+    setup_internal_project()
     setup_user_interface()
 
 
