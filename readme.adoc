@@ -7,7 +7,7 @@
 * Run PF Flask Project
 ```bash
 source venv/Scripts/activate
-python manage_app.py
+python manage_pfr.py
 ```
 * Run PF React Project
 ```bash

@@ -1,5 +1,5 @@
 import os
-from config.pfr_app_config import PFRAppConfig
+from pf_fr.config.pfr_app_config import PFRAppConfig
 from pf_flask.bismillah import Bismillah
 
 
