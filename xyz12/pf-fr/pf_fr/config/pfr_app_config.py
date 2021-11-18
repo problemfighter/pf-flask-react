@@ -13,6 +13,7 @@ class PFRAppConfig(PFFAppConfig):
     APPLICATION_CONFIGURATION: str = "application.config.app_config.Config"
     AUTH_MIDDLEWARE: str = "application.config.middleware.AuthMiddleware"
     AUTH_PROCESSOR: str = "application.config.processor.AuthProcessor"
+    AUTH_ACL_PROCESSOR: str = "application.config.processor.AuthACLProcessor"
     JWT_SECRET: str = "I_am-secret_key12#"
     JWT_ACCESS_TOKEN_VALIDITY_MIN: int = 30
     JWT_REFRESH_TOKEN_VALIDITY_MIN: int = 60

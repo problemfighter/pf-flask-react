@@ -26,7 +26,7 @@ class AuthInterceptor(PfRequestResponse):
         if get_global_app_config() and get_global_app_config().SKIP_URL_ON_AUTH:
             skip_urls += get_global_app_config().SKIP_URL_ON_AUTH
         if relative_url not in skip_urls and not self.check_url_start_with(relative_url):
-            return self.check_auth()
+            return self.check_auth(url_info)
 
     def check_url_start_with(self, request_url):
         for url in SYSTEM_DEFAULT_SKIP_START_WITH_URL:
@@ -34,15 +34,20 @@ class AuthInterceptor(PfRequestResponse):
                 return True
         return False
 
-    def check_auth(self):
+    def check_auth(self, url_info):
         bearer_token = pff_request_header_helper.get_bearer_token()
         if not bearer_token:
             return self.get_error_response()
-        if not self.jwt_helper.validate_token(bearer_token):
+        payload = self.jwt_helper.validate_token(bearer_token)
+        if not payload:
             return self.get_error_response()
+        return self.intercept_acl(url_info, payload)
 
     def get_error_response(self, message="You are not Authorize for Access."):
         return self.error(message, code=4100, http_code=401)
+
+    def intercept_acl(self, url_info, payload):
+        return None
 
 
 auth_interceptor = AuthInterceptor()
