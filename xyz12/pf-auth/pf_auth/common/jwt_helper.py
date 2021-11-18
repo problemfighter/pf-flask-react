@@ -1,4 +1,4 @@
-from pf_flask.global_registry import global_app_config
+from pf_flask.global_registry import get_global_app_config
 import datetime
 import jwt
 
@@ -12,7 +12,7 @@ class JWTHelper:
         payload["exp"] = exp
         if iss:
             payload["iss"] = iss
-        return jwt.encode(payload, global_app_config.JWT_SECRET, algorithm=self.ALGORITHMS)
+        return jwt.encode(payload, get_global_app_config().JWT_SECRET, algorithm=self.ALGORITHMS)
 
     def get_access_token(self, payload: dict = None, iss=None):
         validity = self.get_access_token_validity()
@@ -24,19 +24,20 @@ class JWTHelper:
 
     def validate_token(self, token: str):
         try:
-            return jwt.decode(token, global_app_config.JWT_SECRET, algorithms=[self.ALGORITHMS])
+            return jwt.decode(token, get_global_app_config().JWT_SECRET, algorithms=[self.ALGORITHMS])
         except jwt.ExpiredSignatureError:
             return None
 
     def get_access_token_validity(self, minutes=None):
         if not minutes:
-            minutes = global_app_config.JWT_ACCESS_TOKEN_VALIDITY_MIN
+            minutes = get_global_app_config().JWT_ACCESS_TOKEN_VALIDITY_MIN
         return self.get_token_validity(minutes)
 
     def get_refresh_token_validity(self, minutes=None):
         if not minutes:
-            minutes = global_app_config.JWT_REFRESH_TOKEN_VALIDITY_MIN
+            minutes = get_global_app_config().JWT_REFRESH_TOKEN_VALIDITY_MIN
         return self.get_token_validity(minutes)
 
     def get_token_validity(self, minutes):
         return datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(minutes=minutes)
+
