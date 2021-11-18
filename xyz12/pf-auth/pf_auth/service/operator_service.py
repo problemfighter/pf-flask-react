@@ -3,7 +3,7 @@ from pf_auth.common.jwt_helper import JWTHelper
 from pf_auth.dto.operator_dto import LoginDto, OperatorDto
 from pf_auth.model.operator import Operator
 from pf_auth.model.operator_token import OperatorToken
-from pf_flask.global_registry import global_app_config
+from pf_flask.global_registry import get_global_app_config
 from pf_sqlalchemy.crud.pfs_crud_service import PfsCrudService
 from pfms.pfapi.rr.pfms_request_respons import PfRequestResponse
 
@@ -22,8 +22,8 @@ class OperatorService(PfRequestResponse):
         return Operator.query.filter(Operator.id == id).first()
 
     def init_default_operator(self):
-        email = global_app_config.LOGIN_DEFAULT_EMAIL
-        password = global_app_config.LOGIN_DEFAULT_PASSWORD
+        email = get_global_app_config().LOGIN_DEFAULT_EMAIL
+        password = get_global_app_config().LOGIN_DEFAULT_PASSWORD
         operator = self.get_operator_by_email(email)
         if not operator:
             operator = Operator()
@@ -36,7 +36,7 @@ class OperatorService(PfRequestResponse):
 
     def login_by(self, identifier, password):
         response: Operator
-        if global_app_config.LOGIN_IDENTIFIER == "username":
+        if get_global_app_config().LOGIN_IDENTIFIER == "username":
             response = self.get_operator_by_username(identifier)
         else:
             response = self.get_operator_by_email(identifier)

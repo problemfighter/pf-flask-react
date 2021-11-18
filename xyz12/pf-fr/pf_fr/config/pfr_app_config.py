@@ -10,9 +10,10 @@ class PFRAppConfig(PFFAppConfig):
         "application.config.registry.Register",
         "pf_fr.config.registry.Register",
     ]
-    APPLICATION_CONFIGURATION = "application.config.app_config.Config"
-    AUTH_MIDDLEWARE = "application.config.middleware.AuthMiddleware"
-    AUTH_PROCESSOR = "application.config.processor.AuthProcessor"
-    JWT_SECRET = "I_am-secret_key12#"
-    JWT_ACCESS_TOKEN_VALIDITY_MIN = 30
-    JWT_REFRESH_TOKEN_VALIDITY_MIN = 60
+    APPLICATION_CONFIGURATION: str = "application.config.app_config.Config"
+    AUTH_MIDDLEWARE: str = "application.config.middleware.AuthMiddleware"
+    AUTH_PROCESSOR: str = "application.config.processor.AuthProcessor"
+    JWT_SECRET: str = "I_am-secret_key12#"
+    JWT_ACCESS_TOKEN_VALIDITY_MIN: int = 30
+    JWT_REFRESH_TOKEN_VALIDITY_MIN: int = 60
+    SKIP_URL_ON_AUTH: list = []

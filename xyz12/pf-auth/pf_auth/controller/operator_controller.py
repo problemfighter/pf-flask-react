@@ -21,3 +21,9 @@ def initialize():
 @pfms_post_request(request_body=LoginDto, response_obj=LoginResponseDto)
 def login():
     return operator_service.login_operator()
+
+
+@operator_controller.route("/test", methods=['GET'])
+@simple_get(only_message=True)
+def test():
+    return operator_service.error("Test Actions")
