@@ -2,6 +2,8 @@ from pf_flask.pff_app_config import PFFAppConfig
 
 
 class PFRAppConfig(PFFAppConfig):
+    LOGIN_DEFAULT_EMAIL: str = "admin@pfr.loc"
+    LOGIN_DEFAULT_PASSWORD: str = "admin"
     LOGIN_IDENTIFIER: str = "email"
     ENABLE_AUTH_MODULE: bool = True
     MODULE_REGISTRY_PACKAGE: list = [

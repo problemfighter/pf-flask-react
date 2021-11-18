@@ -1,3 +1,4 @@
 
 
 * Model: https://flask-sqlalchemy.palletsprojects.com/en/2.x/models/
+* Model Queries: https://flask-sqlalchemy.palletsprojects.com/en/2.x/queries/

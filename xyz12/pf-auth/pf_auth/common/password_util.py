@@ -4,6 +4,8 @@ import bcrypt
 def get_password_hash(password, salt=None):
     if not salt:
         salt = bcrypt.gensalt()
+    if password:
+        password = password.encode('utf8')
     hashed = bcrypt.hashpw(password, salt)
     return hashed
 

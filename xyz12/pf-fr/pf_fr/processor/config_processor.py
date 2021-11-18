@@ -1,4 +1,3 @@
-from pf_flask.global_registry import global_app_config
 from pf_flask.pff_config_manager import PFFConfigManager
 from pf_flask.pff_utils import import_from_string
 from pf_fr.config.pfr_app_config import PFRAppConfig
