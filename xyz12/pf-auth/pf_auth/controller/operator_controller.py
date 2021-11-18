@@ -1,7 +1,8 @@
 from flask import Blueprint
-from pf_auth.service.operator_service import OperatorService
-from pfms.swagger.pfms_swagger_decorator import simple_get
 
+from pf_auth.dto.operator_dto import LoginResponseDto, LoginDto
+from pf_auth.service.operator_service import OperatorService
+from pfms.swagger.pfms_swagger_decorator import simple_get, pfms_post_request
 
 operator_controller = Blueprint("operator_controller", __name__, url_prefix="/api/v1/operator")
 operator_service = OperatorService()
@@ -14,3 +15,9 @@ def initialize():
     if is_created:
         return operator_service.success("Successfully Initialized")
     return operator_service.error("Unable to Initialize")
+
+
+@operator_controller.route("/login", methods=["POST"])
+@pfms_post_request(request_body=LoginDto, response_obj=LoginResponseDto)
+def login():
+    return operator_service.login_operator()
