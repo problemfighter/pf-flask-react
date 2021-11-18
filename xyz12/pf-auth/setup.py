@@ -14,7 +14,8 @@ setup(
     include_package_data=True,
     platforms='any',
     install_requires=[
-        'bcrypt>=3.2.0'
+        'bcrypt>=3.2.0',
+        'PyJWT>=2.3.0',
     ],
     classifiers=[
         'Environment :: Web Environment',
