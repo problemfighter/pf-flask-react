@@ -1,7 +1,7 @@
 from pf_sqlalchemy.db.orm import database, PrimeBase
 
 
-class OperatorToken(database.Model):
+class OperatorToken(PrimeBase):
     id = database.Column("id", database.BigInteger, primary_key=True)
     token = database.Column("token", database.String(350), nullable=False)
     name = database.Column("name", database.String(25))
