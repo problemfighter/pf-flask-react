@@ -29,7 +29,7 @@ tmp
 
 __pycache__/
 instance/
-
+/application
 
 
 node_modules
