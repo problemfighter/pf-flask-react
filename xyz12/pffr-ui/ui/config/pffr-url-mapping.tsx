@@ -1,6 +1,8 @@
 import React from 'react';
 import PFURLMapping from "@pfo/pf-react/src/artifacts/config/pf-url-mapping";
 import PFLayoutInfoData from "@pfo/pf-react/src/artifacts/data/pf-layout-info-data";
+import PublicLayout from "@pfo/base-app/src/view/layouts/public-layout";
+import PrivateLayout from "@pfo/base-app/src/view/layouts/private-layout";
 
 
 export default class PFFRURLMapping extends PFURLMapping {
@@ -9,6 +11,10 @@ export default class PFFRURLMapping extends PFURLMapping {
         let pageWithLayout: Array<PFLayoutInfoData> = [];
 
         let privateLayoutInfo: PFLayoutInfoData = new PFLayoutInfoData();
+        privateLayoutInfo.layout = PrivateLayout
+
+        let publicLayoutInfo: PFLayoutInfoData = new PFLayoutInfoData();
+        publicLayoutInfo.layout = PublicLayout
 
         return pageWithLayout
     }

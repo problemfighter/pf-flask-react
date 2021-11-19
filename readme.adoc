@@ -13,3 +13,11 @@ python manage_pfr.py
 ```bash
 yarn start-pfr
 ```
+
+
+{blank} +
+
+== Kill node process at windows
+```bash
+Taskkill /F /IM node.exe
+```
