@@ -8,8 +8,10 @@
   "license": "Apache License 2.0",
   "private": true,
   "workspaces": [
-    "xyz12/pf-react-app/pf-react-app/dev-libs/*",
-    "xyz12/pf-react-app/pf-react-app/frame-mod/*"
+    "xyz12/pf-react-app/dev-libs/*",
+    "xyz12/pf-react-app/frame-mod/*",
+    "xyz12/pffr-ui",
+    "application/*/user-interface"
   ],
   "scripts": {
     "start-pfr": "lerna run start-pfr --stream",

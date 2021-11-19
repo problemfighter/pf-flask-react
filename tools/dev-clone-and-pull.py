@@ -131,7 +131,7 @@ def setup_user_interface():
     clone_pull_setup(ui_base_libraries)
     path = os.path.join(xyz12_lib_dir, user_interface)
     if os.path.exists(path):
-        command = "bash dev-bismillah.sh"
+        command = "bash tools/prepare-dev.sh"
         execute_command(path, command)
 
 

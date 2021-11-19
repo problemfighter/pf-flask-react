@@ -1,7 +1,9 @@
 {
   "packages": [
-    "xyz12/pf-react-app/pf-react-app/dev-libs/*",
-    "xyz12/pf-react-app/pf-react-app/frame-mod/*"
+    "xyz12/pf-react-app/dev-libs/*",
+    "xyz12/pf-react-app/frame-mod/*",
+    "xyz12/pffr-ui",
+    "application/*/user-interface"
   ],
   "version": "1.0.0"
 }

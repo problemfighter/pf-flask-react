@@ -1,0 +1,40 @@
+{
+  "name": "@pfo/pffr-ui",
+  "version": "1.0.0",
+  "private": false,
+  "dependencies": {
+    "@pfo/pf-react": "^1.0.0",
+    "@pfo/pf-rui": "^1.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "@types/react": "^17.0.30",
+    "@types/react-dom": "^17.0.9"
+  },
+  "scripts": {
+    "start-pfr": "webpack-dev-server",
+    "build-pfr": "webpack --mode=development"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "devDependencies": {
+    "file-loader": "^6.2.0",
+    "css-loader": "^6.4.0",
+    "html-webpack-plugin": "^5.4.0",
+    "style-loader": "^3.3.0",
+    "ts-loader": "^9.2.6",
+    "webpack": "^5.58.2",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.3.1"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/problemfighter/pf-flask-react"
+  }
+}
