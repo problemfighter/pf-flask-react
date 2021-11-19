@@ -6,6 +6,8 @@ from pf_fr.interface.auth_acl_processor_abc import AuthACLProcessorABC
 from pfms.pfapi.rr.pfms_request_respons import PfRequestResponse
 
 SYSTEM_DEFAULT_SKIP_URL = [
+    "/",
+    "/api/v1/operator/renew-token",
     "/pf-swagger-ui",
     "/api/v1/operator/login",
     "/api/v1/operator/init",
@@ -13,7 +15,9 @@ SYSTEM_DEFAULT_SKIP_URL = [
 ]
 
 SYSTEM_DEFAULT_SKIP_START_WITH_URL = [
+    "/favicon.ico",
     "/pf-marshmallow-swagger/",
+    "/static/"
 ]
 
 
@@ -24,6 +28,8 @@ class AuthInterceptor(PfRequestResponse):
     def intercept(self):
         url_info = pff_request_header_helper.get_url_info()
         relative_url = url_info['relative_url']
+        if not relative_url:
+            relative_url = url_info["relative_url_with_param"]
         skip_urls = SYSTEM_DEFAULT_SKIP_URL
         if get_global_app_config() and get_global_app_config().SKIP_URL_ON_AUTH:
             skip_urls += get_global_app_config().SKIP_URL_ON_AUTH
