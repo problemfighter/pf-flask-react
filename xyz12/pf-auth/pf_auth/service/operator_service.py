@@ -1,9 +1,14 @@
+from sqlalchemy import and_
+
 from fpf_common.util.common_util import get_uuid
 from pf_auth.common.jwt_helper import JWTHelper
-from pf_auth.dto.operator_dto import LoginDto, OperatorDto
+from pf_auth.dto.operator_dto import LoginDto, OperatorDto, RefreshTokenDto
 from pf_auth.model.operator import Operator
 from pf_auth.model.operator_token import OperatorToken
 from pf_flask.global_registry import get_global_app_config
+from pf_flask.pff_utils import import_from_string
+from pf_fr.interface.auth_processor_abc import AuthProcessorABC
+from pf_fr.interface.auth_refresh_token_processor_abc import AuthRefreshTokenProcessorABC
 from pf_sqlalchemy.crud.pfs_crud_service import PfsCrudService
 from pfms.pfapi.rr.pfms_request_respons import PfRequestResponse
 
@@ -19,7 +24,7 @@ class OperatorService(PfRequestResponse):
         return Operator.query.filter(Operator.username == username).first()
 
     def get_operator_by_id(self, id):
-        return Operator.query.filter(Operator.id == id).first()
+        return Operator.query.filter(and_(Operator.id == id, Operator.isDeleted == False)).first()
 
     def init_default_operator(self):
         email = get_global_app_config().LOGIN_DEFAULT_EMAIL
@@ -53,6 +58,8 @@ class OperatorService(PfRequestResponse):
             return self.error("Sorry your account has been inactive.")
         if not response.isVerified:
             return self.error("Sorry your account has not been verified.")
+        if response.isDeleted:
+            return self.error("Invalid Access Credentials!")
         return self.process_login_response(response)
 
     def process_login_response(self, operator):
@@ -69,24 +76,29 @@ class OperatorService(PfRequestResponse):
         if not refresh_token:
             return self.error(error_message)
         response_map['refreshToken'] = refresh_token
+
+        auth_processor = import_from_string(get_global_app_config().AUTH_ACL_PROCESSOR, True)
+        if auth_processor and isinstance(auth_processor, AuthProcessorABC):
+            return auth_processor.process(response_map, operator, self)
         return self.json_list_dic_data_response(response_map)
 
-    def get_access_token(self, operator_id):
+    def get_access_token(self, operator_id, payload: dict = None):
         operator = self.get_operator_by_id(operator_id)
         if not operator:
             return None
-        payload = {
-            "operator": operator.id
-        }
+
+        if not payload:
+            payload = {}
+        payload["operator"] = operator.id
         return self.jwt_helper.get_access_token(payload, iss=operator.uuid)
 
-    def get_refresh_token(self, operator_id):
+    def get_refresh_token(self, operator_id, payload: dict = None):
         operator = self.get_operator_by_id(operator_id)
         if not operator:
             return None
-        payload = {
-            "operator": operator.id
-        }
+        if not payload:
+            payload = {}
+        payload["operator"] = operator.id
         db_token = self.create_or_update_db_refresh_token(operator_id)
         if not db_token:
             return None
@@ -108,5 +120,32 @@ class OperatorService(PfRequestResponse):
     def get_operator_token_by_operator_id(self, operator_id):
         return OperatorToken.query.filter(OperatorToken.operatorId == operator_id).first()
 
+    def get_operator_token_by_token(self, token):
+        return OperatorToken.query.filter(OperatorToken.token == token).first()
+
     def renew_token(self):
-        pass
+        login_credential = self.json_request_process(RefreshTokenDto())
+        jwt_payload = self.jwt_helper.validate_token(login_credential['refreshToken'])
+        if not jwt_payload:
+            return self.error("Invalid Token", 5500)
+        if "token" not in jwt_payload or "operator" not in jwt_payload:
+            return self.error("Invalid Token", 5500)
+        operator_token = self.get_operator_token_by_token(jwt_payload["token"])
+        operator_id = jwt_payload["operator"]
+        if not operator_token:
+            return self.error("Token Expired", 5501)
+
+        access_token = self.get_access_token(operator_id)
+        refresh_token = self.get_refresh_token(operator_id)
+        if not access_token or not refresh_token:
+            return self.error("Unable to generate token", 5502)
+
+        response_map = {
+            "accessToken": access_token,
+            "refreshToken": refresh_token,
+        }
+
+        refresh_token_processor = import_from_string(get_global_app_config().AUTH_REFRESH_TOKEN_PROCESSOR, True)
+        if refresh_token_processor and isinstance(refresh_token_processor, AuthRefreshTokenProcessorABC):
+            return refresh_token_processor.process(response_map, jwt_payload, self)
+        return self.json_list_dic_data_response(response_map)

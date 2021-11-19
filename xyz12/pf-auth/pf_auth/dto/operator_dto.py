@@ -25,3 +25,7 @@ class OperatorDto(PfBaseSchema):
 class LoginResponseDto(PfBaseSchema):
     loginToken = fields.Nested(LoginTokenDto)
     operator = fields.Nested(OperatorDto)
+
+
+class RefreshTokenDto(PfBaseSchema):
+    refreshToken = fields.String()

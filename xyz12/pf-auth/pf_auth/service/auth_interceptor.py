@@ -1,6 +1,8 @@
 from fpf_common.common.pff_request_header_helper import pff_request_header_helper
 from pf_auth.common.jwt_helper import JWTHelper
 from pf_flask.global_registry import get_global_app_config
+from pf_flask.pff_utils import import_from_string
+from pf_fr.interface.auth_acl_processor_abc import AuthACLProcessorABC
 from pfms.pfapi.rr.pfms_request_respons import PfRequestResponse
 
 SYSTEM_DEFAULT_SKIP_URL = [
@@ -47,6 +49,9 @@ class AuthInterceptor(PfRequestResponse):
         return self.error(message, code=4100, http_code=401)
 
     def intercept_acl(self, url_info, payload):
+        auth_acl_processor = import_from_string(get_global_app_config().AUTH_ACL_PROCESSOR, True)
+        if auth_acl_processor and isinstance(auth_acl_processor, AuthACLProcessorABC):
+            return auth_acl_processor.process(url_info, payload, self)
         return None
 
 
