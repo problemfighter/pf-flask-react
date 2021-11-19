@@ -24,8 +24,10 @@ class JWTHelper:
 
     def validate_token(self, token: str):
         try:
+            if not token:
+                return None
             return jwt.decode(token, get_global_app_config().JWT_SECRET, algorithms=[self.ALGORITHMS])
-        except jwt.ExpiredSignatureError:
+        except:
             return None
 
     def get_access_token_validity(self, minutes=None):

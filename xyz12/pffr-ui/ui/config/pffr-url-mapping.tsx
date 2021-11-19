@@ -4,6 +4,8 @@ import PFLayoutInfoData from "@pfo/pf-react/src/artifacts/data/pf-layout-info-da
 import PublicLayout from "@pfo/base-app/src/view/layouts/public-layout";
 import PrivateLayout from "@pfo/base-app/src/view/layouts/private-layout";
 
+const PFRFLoginView = React.lazy(() => import('./../view/auth/pffr-login-view'));
+
 
 export default class PFFRURLMapping extends PFURLMapping {
 
@@ -15,6 +17,9 @@ export default class PFFRURLMapping extends PFURLMapping {
 
         let publicLayoutInfo: PFLayoutInfoData = new PFLayoutInfoData();
         publicLayoutInfo.layout = PublicLayout
+
+        publicLayoutInfo.addPageInstance("/", PFRFLoginView);
+        pageWithLayout.push(publicLayoutInfo);
 
         return pageWithLayout
     }

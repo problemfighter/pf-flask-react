@@ -11,7 +11,7 @@ export default class PFFRAppConfig extends PFAppConfig {
     }
 
     public getBaseURL(): string {
-        return "https://flask-hmtmcse.herokuapp.com/";
+        return "http://127.0.0.1:1201/";
     }
 
 }

@@ -67,15 +67,17 @@ class OperatorService(PfRequestResponse):
         response_map: dict = {
             "operator": operator_details
         }
+        login_token: dict = {}
         error_message = "Unable to process login request"
         access_token = self.get_access_token(operator.id)
         if not access_token:
             return self.error(error_message)
-        response_map['accessToken'] = access_token
+        login_token['accessToken'] = access_token
         refresh_token = self.get_refresh_token(operator.id)
         if not refresh_token:
             return self.error(error_message)
-        response_map['refreshToken'] = refresh_token
+        login_token['refreshToken'] = refresh_token
+        response_map["loginToken"] = login_token
 
         auth_processor = import_from_string(get_global_app_config().AUTH_ACL_PROCESSOR, True)
         if auth_processor and isinstance(auth_processor, AuthProcessorABC):
