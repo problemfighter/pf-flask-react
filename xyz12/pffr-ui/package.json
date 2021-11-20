@@ -1,7 +1,7 @@
 {
   "name": "@pfo/pffr-ui",
   "version": "1.0.0",
-  "private": false,
+  "private": true,
   "dependencies": {
     "@pfo/pf-react": "^1.0.0",
     "@pfo/pf-rui": "^1.0.0",
