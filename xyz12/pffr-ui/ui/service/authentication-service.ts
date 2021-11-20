@@ -4,8 +4,8 @@ import {PFUtil} from "@pfo/pf-react/src/artifacts/utils/pf-util";
 import {PFHTTPCall} from "@pfo/pf-react/src/artifacts/interface/pf-mixed-interface";
 import PFHTTCallback from "@pfo/pf-react/src/artifacts/processor/http/pf-http-callback";
 import PFHTTResponse from "@pfo/pf-react/src/artifacts/processor/http/pf-http-response";
-import {PFFRApiUrl} from "../config/pffr-api-url";
 import {ApiUtil} from "@pfo/base-app/src/system/api-util";
+import {PFFRDefaultUrl} from "../config/pffr-default-url";
 
 export default class AuthenticationService {
 
@@ -63,7 +63,7 @@ export default class AuthenticationService {
 
     public renewAuthorization(trHttpCall: PFHTTPCall): void {
         const component = trHttpCall.getComponent();
-        let request: PFHTTRequest = component.httpRequestData(PFFRApiUrl.RENEW_TOKEN_URL);
+        let request: PFHTTRequest = component.httpRequestData(PFFRDefaultUrl.RENEW_TOKEN_URL);
         request.requestData = {
             refreshToken: PFBrowserStorageManager.getByKey("refreshToken")
         };

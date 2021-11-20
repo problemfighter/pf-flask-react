@@ -1,6 +1,6 @@
 from flask import Blueprint
 
-from pf_auth.dto.operator_dto import LoginResponseDto, LoginDto, RefreshTokenDto, LoginTokenDto
+from pf_auth.dto.operator_dto import LoginResponseDto, LoginDto, RefreshTokenDto, LoginTokenDto, RefreshTokenResponseDto
 from pf_auth.service.operator_service import OperatorService
 from pfms.swagger.pfms_swagger_decorator import simple_get, pfms_post_request
 
@@ -24,7 +24,7 @@ def login():
 
 
 @operator_controller.route("/renew-token", methods=["POST"])
-@pfms_post_request(request_body=RefreshTokenDto, response_obj=LoginTokenDto)
+@pfms_post_request(request_body=RefreshTokenDto, response_obj=RefreshTokenResponseDto)
 def renew_token():
     return operator_service.renew_token()
 

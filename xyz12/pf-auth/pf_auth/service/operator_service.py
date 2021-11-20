@@ -143,8 +143,10 @@ class OperatorService(PfRequestResponse):
             return self.error("Unable to generate token", 5502)
 
         response_map = {
-            "accessToken": access_token,
-            "refreshToken": refresh_token,
+            "loginToken": {
+                "accessToken": access_token,
+                "refreshToken": refresh_token,
+            }
         }
 
         refresh_token_processor = import_from_string(get_global_app_config().AUTH_REFRESH_TOKEN_PROCESSOR, True)

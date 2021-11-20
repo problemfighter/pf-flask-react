@@ -7,8 +7,10 @@ import loginLogo from './../../assets/img/logo/logo-login.png'
 import PFHTTResponse from "@pfo/pf-react/src/artifacts/processor/http/pf-http-response";
 import {ApiUtil} from "@pfo/base-app/src/system/api-util";
 import {AppConstant} from "@pfo/base-app/src/system/app-constant";
-import CrudUrlMapping from "@pfo/base-app/src/view/crud/crud-url-mapping";
 import AuthenticationService from "../../service/authentication-service";
+import {PFFRDefaultUrl} from "../../config/pffr-default-url";
+import PFBrowserStorageManager from "@pfo/pf-react/src/artifacts/manager/pf-browser-storage-manager";
+import {PFUtil} from "@pfo/pf-react/src/artifacts/utils/pf-util";
 
 
 interface Props extends PFProps {
@@ -22,8 +24,6 @@ class State extends PFComponentState {
 
 }
 
-const defaultURL: string = "/api/v1/operator/login"
-const successRedirectConstant: string = "/dashboard"
 
 export default class PFRFLoginView extends PFComponent<Props, State> {
 
@@ -39,6 +39,14 @@ export default class PFRFLoginView extends PFComponent<Props, State> {
     }
 
     componentDidMount() {
+        const _this = this;
+        let successRedirect: any = PFFRDefaultUrl.UI_DEFAULT_LOGIN_SUCCESS
+        if (_this.props.successRedirect) {
+            successRedirect = _this.props.successRedirect
+        }
+        if (Boolean(PFBrowserStorageManager.getByKey("isAuthorized"))) {
+            PFUtil.gotoUrl(this, successRedirect);
+        }
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -47,8 +55,8 @@ export default class PFRFLoginView extends PFComponent<Props, State> {
     submitFormData(event: any, data: any, parentComponent: any) {
         event.preventDefault();
         const _this = this;
-        let url: any = defaultURL
-        let successRedirect: any = successRedirectConstant
+        let url: any = PFFRDefaultUrl.LOGIN_URL
+        let successRedirect: any = PFFRDefaultUrl.UI_DEFAULT_LOGIN_SUCCESS
         if (_this.props.loginURL) {
             url = _this.props.loginURL
         }
@@ -61,7 +69,6 @@ export default class PFRFLoginView extends PFComponent<Props, State> {
                     callback(response: PFHTTResponse): void {
                         let apiResponse = ApiUtil.getFormRequestValidResponseOrNone(response, parentComponent);
                         if (apiResponse && apiResponse.status === AppConstant.STATUS_SUCCESS) {
-                            console.log(apiResponse.data)
                             AuthenticationService.instance().processLoginToken(apiResponse.data);
                             _this.successRedirect(successRedirect, apiResponse.message);
                         }

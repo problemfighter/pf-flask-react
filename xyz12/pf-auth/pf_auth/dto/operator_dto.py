@@ -29,3 +29,7 @@ class LoginResponseDto(PfBaseSchema):
 
 class RefreshTokenDto(PfBaseSchema):
     refreshToken = fields.String()
+
+
+class RefreshTokenResponseDto(PfBaseSchema):
+    loginToken = fields.Nested(LoginTokenDto)
