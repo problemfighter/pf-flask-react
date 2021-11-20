@@ -42,6 +42,12 @@ export default class AuthenticationService {
         return false;
     }
 
+    public logout() {
+        PFBrowserStorageManager.remove("isAuthorized")
+        PFBrowserStorageManager.remove("accessToken")
+        PFBrowserStorageManager.remove("refreshToken")
+    }
+
     public processLoginToken(responseData: any): boolean {
         if (this.addAuthorizationMetaData(responseData)) {
             PFBrowserStorageManager.add("isAuthorized", true);
