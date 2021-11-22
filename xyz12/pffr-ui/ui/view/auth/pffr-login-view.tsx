@@ -18,6 +18,7 @@ interface Props extends PFProps {
     title?: String
     loginURL?: String
     successRedirect?: String
+    loginSuccess?: (event: any, data: any) => void;
 }
 
 class State extends PFComponentState {
@@ -70,7 +71,11 @@ export default class PFRFLoginView extends PFComponent<Props, State> {
                         let apiResponse = ApiUtil.getFormRequestValidResponseOrNone(response, parentComponent);
                         if (apiResponse && apiResponse.status === AppConstant.STATUS_SUCCESS) {
                             AuthenticationService.instance().processLoginToken(apiResponse.data);
-                            _this.successRedirect(successRedirect, apiResponse.message);
+                            if (_this.props.loginSuccess) {
+                                _this.props.loginSuccess(event, apiResponse.data)
+                            } else {
+                                _this.successRedirect(successRedirect, apiResponse.message);
+                            }
                         }
                     }
                 },
