@@ -68,22 +68,26 @@ export default class AuthenticationService {
     }
 
     public renewAuthorization(trHttpCall: PFHTTPCall): void {
-        const component = trHttpCall.getComponent();
-        let request: PFHTTRequest = component.httpRequestData(PFFRDefaultUrl.RENEW_TOKEN_URL);
+        const _this = this
+        const httpRequestHelper = trHttpCall.getHttpRequestHelper();
+        const parentComponent = trHttpCall.getComponent();
+        let request: PFHTTRequest = httpRequestHelper.httpRequestObject(PFFRDefaultUrl.RENEW_TOKEN_URL);
         request.requestData = {
             refreshToken: PFBrowserStorageManager.getByKey("refreshToken")
         };
         let callback: PFHTTCallback = {
             before: (response: PFHTTResponse) => {
-                component.showLoader();
+                httpRequestHelper.showLoader();
             },
             success: (response: PFHTTResponse) => {
-                const responseData = ApiUtil.getValidResponseOrNone(response, component);
+                const responseData = ApiUtil.getValidResponseOrNone(response, parentComponent);
                 if (responseData && responseData.status !== "error" && this.addAuthorizationMetaData(responseData.data)) {
                     trHttpCall.resume();
                 } else {
-                    PFUtil.redirectTo("/");
-                    component.showLoginUI();
+                    parentComponent.showErrorFlash("Session has been expired.");
+                    _this.logout();
+                    // TODO: Check the Session Renew System
+                    // PFUtil.redirectTo("/");
                 }
             },
             failed: (response: PFHTTResponse) => {
@@ -91,13 +95,13 @@ export default class AuthenticationService {
                 if (response.message) {
                     message = response.message
                 }
-                component.showErrorFlash(message);
+                parentComponent.showErrorFlash(message);
             },
             finally: () => {
-                component.hideLoader();
+                httpRequestHelper.hideLoader();
             }
         };
-        component.httpManager().postJSON(request, callback);
+        httpRequestHelper.httpManager().postJSON(request, callback);
     }
 
 

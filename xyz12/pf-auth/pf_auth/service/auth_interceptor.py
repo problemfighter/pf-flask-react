@@ -25,8 +25,11 @@ class AuthInterceptor(PfRequestResponse):
 
     jwt_helper = JWTHelper()
 
+
     def intercept(self):
         url_info = pff_request_header_helper.get_url_info()
+        if url_info['method'] == 'OPTIONS':
+            return self.success("Allowed")
         relative_url = url_info['relative_url']
         if not relative_url:
             relative_url = url_info["relative_url_with_param"]
