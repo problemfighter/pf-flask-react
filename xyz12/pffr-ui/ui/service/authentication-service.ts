@@ -73,7 +73,9 @@ export default class AuthenticationService {
         const parentComponent = trHttpCall.getComponent();
         let request: PFHTTRequest = httpRequestHelper.httpRequestObject(PFFRDefaultUrl.RENEW_TOKEN_URL);
         request.requestData = {
-            refreshToken: PFBrowserStorageManager.getByKey("refreshToken")
+            data: {
+                refreshToken: PFBrowserStorageManager.getByKey("refreshToken")
+            }
         };
         let callback: PFHTTCallback = {
             before: (response: PFHTTResponse) => {
@@ -86,8 +88,7 @@ export default class AuthenticationService {
                 } else {
                     parentComponent.showErrorFlash("Session has been expired.");
                     _this.logout();
-                    // TODO: Check the Session Renew System
-                    // PFUtil.redirectTo("/");
+                    PFUtil.redirectTo("/");
                 }
             },
             failed: (response: PFHTTResponse) => {
