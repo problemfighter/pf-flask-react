@@ -79,9 +79,12 @@ class OperatorService(PfRequestResponse):
         login_token['refreshToken'] = refresh_token
         response_map["loginToken"] = login_token
 
-        auth_processor = import_from_string(get_global_app_config().AUTH_ACL_PROCESSOR, True)
-        if auth_processor and isinstance(auth_processor, AuthProcessorABC):
-            return auth_processor.process(response_map, operator, self)
+        auth_processor_class = import_from_string(get_global_app_config().AUTH_PROCESSOR, True)
+        if auth_processor_class and issubclass(auth_processor_class, AuthProcessorABC):
+            auth_processor = auth_processor_class()
+            response = auth_processor.process(response_map, operator, self)
+            if response:
+                return response
         return self.json_list_dic_data_response(response_map)
 
     def get_access_token(self, operator_id, payload: dict = None):
@@ -149,7 +152,10 @@ class OperatorService(PfRequestResponse):
             }
         }
 
-        refresh_token_processor = import_from_string(get_global_app_config().AUTH_REFRESH_TOKEN_PROCESSOR, True)
-        if refresh_token_processor and isinstance(refresh_token_processor, AuthRefreshTokenProcessorABC):
-            return refresh_token_processor.process(response_map, jwt_payload, self)
+        refresh_token_processor_class = import_from_string(get_global_app_config().AUTH_REFRESH_TOKEN_PROCESSOR, True)
+        if refresh_token_processor_class and issubclass(refresh_token_processor_class, AuthRefreshTokenProcessorABC):
+            refresh_token_processor = refresh_token_processor_class()
+            response = refresh_token_processor.process(response_map, jwt_payload, self)
+            if response:
+                return response
         return self.json_list_dic_data_response(response_map)

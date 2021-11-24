@@ -58,8 +58,9 @@ class AuthInterceptor(PfRequestResponse):
         return self.error(message, code=4100, http_code=401)
 
     def intercept_acl(self, url_info, payload):
-        auth_acl_processor = import_from_string(get_global_app_config().AUTH_ACL_PROCESSOR, True)
-        if auth_acl_processor and isinstance(auth_acl_processor, AuthACLProcessorABC):
+        auth_acl_processor_class = import_from_string(get_global_app_config().AUTH_ACL_PROCESSOR, True)
+        if auth_acl_processor_class and issubclass(auth_acl_processor_class, AuthACLProcessorABC):
+            auth_acl_processor = auth_acl_processor_class()
             return auth_acl_processor.process(url_info, payload, self)
         return None
 
