@@ -7,8 +7,8 @@ class PFRAppConfig(PFFAppConfig):
     LOGIN_IDENTIFIER: str = "email"
     ENABLE_AUTH_MODULE: bool = True
     MODULE_REGISTRY_PACKAGE: list = [
-        "application.config.registry.Register",
         "pf_fr.config.registry.Register",
+        "application.config.registry.Register",
     ]
     APPLICATION_CONFIGURATION: str = "application.config.app_config.Config"
     AUTH_PROCESSOR: str = "application.config.processor.AuthProcessor"
