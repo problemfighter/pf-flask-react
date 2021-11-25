@@ -46,6 +46,15 @@ export default class AuthenticationService {
         PFBrowserStorageManager.remove("isAuthorized")
         PFBrowserStorageManager.remove("accessToken")
         PFBrowserStorageManager.remove("refreshToken")
+        PFBrowserStorageManager.remove("navData")
+    }
+
+    public setNavigationData(data: any) {
+        PFBrowserStorageManager.addAsJSONString("navData", data);
+    }
+
+    public getNavigationData() {
+        PFBrowserStorageManager.getAsJSON("navData");
     }
 
     public processLoginToken(responseData: any): boolean {
