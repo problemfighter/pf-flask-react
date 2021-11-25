@@ -6,3 +6,5 @@ application = PFRFSystem(__name__, base_path).initialize()
 
 if __name__ == '__main__':
     application.run()
+else:
+    run_server = application.run()
