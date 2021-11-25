@@ -43,3 +43,5 @@ class JWTHelper:
     def get_token_validity(self, minutes):
         return datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(minutes=minutes)
 
+
+jwt_helper = JWTHelper()
