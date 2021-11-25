@@ -10,7 +10,7 @@ class ConfigProcessor:
         config = PFRAppConfig()
         config.set_base_dir(base_path)
         config.PORT = 1201
-        application_config = import_from_string(config.APPLICATION_CONFIGURATION, True)
+        application_config = import_from_string(config.APPLICATION_CONFIGURATION, config.STRING_IMPORT_SILENT)
         if application_config:
             config = self._pff_config_manager.merge_config_by_config(application_config, config)
         return config

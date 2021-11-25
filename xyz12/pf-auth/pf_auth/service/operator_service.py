@@ -79,7 +79,7 @@ class OperatorService(PfRequestResponse):
         login_token['refreshToken'] = refresh_token
         response_map["loginToken"] = login_token
 
-        auth_processor_class = import_from_string(get_global_app_config().AUTH_PROCESSOR, True)
+        auth_processor_class = import_from_string(get_global_app_config().AUTH_PROCESSOR, get_global_app_config().STRING_IMPORT_SILENT)
         if auth_processor_class and issubclass(auth_processor_class, AuthProcessorABC):
             auth_processor = auth_processor_class()
             response = auth_processor.process(response_map, operator, self)
@@ -152,7 +152,7 @@ class OperatorService(PfRequestResponse):
             }
         }
 
-        refresh_token_processor_class = import_from_string(get_global_app_config().AUTH_REFRESH_TOKEN_PROCESSOR, True)
+        refresh_token_processor_class = import_from_string(get_global_app_config().AUTH_REFRESH_TOKEN_PROCESSOR, get_global_app_config().STRING_IMPORT_SILENT)
         if refresh_token_processor_class and issubclass(refresh_token_processor_class, AuthRefreshTokenProcessorABC):
             refresh_token_processor = refresh_token_processor_class()
             response = refresh_token_processor.process(response_map, jwt_payload, self)
