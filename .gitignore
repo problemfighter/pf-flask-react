@@ -39,3 +39,4 @@ flask-rest.sqlite3
 xyz12/pf-flask
 xyz12/pf-react-app
 *.sqlite3
+.firebase
