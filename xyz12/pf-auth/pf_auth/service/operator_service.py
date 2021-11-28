@@ -26,9 +26,7 @@ class OperatorService(PfRequestResponse):
     def get_operator_by_id(self, id):
         return Operator.query.filter(and_(Operator.id == id, Operator.isDeleted == False)).first()
 
-    def init_default_operator(self):
-        email = get_global_app_config().LOGIN_DEFAULT_EMAIL
-        password = get_global_app_config().LOGIN_DEFAULT_PASSWORD
+    def create_operator_by_email(self, email, password):
         operator = self.get_operator_by_email(email)
         if not operator:
             operator = Operator()
@@ -36,8 +34,16 @@ class OperatorService(PfRequestResponse):
             operator.password = password
             self.crud_service.save(operator)
             if operator.id:
-                return True
-            return False
+                return operator
+        return None
+
+    def init_default_operator(self):
+        email = get_global_app_config().LOGIN_DEFAULT_EMAIL
+        password = get_global_app_config().LOGIN_DEFAULT_PASSWORD
+        operator = self.create_operator_by_email(email, password)
+        if operator:
+            return True
+        return False
 
     def login_by(self, identifier, password):
         response: Operator
@@ -159,3 +165,12 @@ class OperatorService(PfRequestResponse):
             if response:
                 return response
         return self.json_list_dic_data_response(response_map)
+
+    def is_operator_email_exist(self, email):
+        if self.get_operator_by_email(email):
+            return True
+        return False
+
+
+operator_service = OperatorService()
+
