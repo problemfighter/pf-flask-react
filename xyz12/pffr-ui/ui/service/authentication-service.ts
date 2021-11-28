@@ -95,9 +95,8 @@ export default class AuthenticationService {
                 if (responseData && responseData.status !== "error" && this.addAuthorizationMetaData(responseData.data)) {
                     trHttpCall.resume();
                 } else {
-                    parentComponent.showErrorFlash("Session has been expired.");
                     _this.logout();
-                    PFUtil.redirectTo("/");
+                    parentComponent.failedRedirect("/", "Session has been expired.");
                 }
             },
             failed: (response: PFHTTResponse) => {
