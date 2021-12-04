@@ -25,3 +25,10 @@ python setup.py develop
 ```bash
 Taskkill /F /IM node.exe
 ```
+
+{blank} +
+
+== In lerna not found
+```bash
+npm install --global lerna
+```
