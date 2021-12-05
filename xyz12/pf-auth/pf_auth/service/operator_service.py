@@ -90,7 +90,7 @@ class OperatorService(PfRequestResponse):
             auth_processor = auth_processor_class()
             response = auth_processor.process(response_map, operator, self)
             if response:
-                return response
+                return self.json_list_dic_data_response(response)
         return self.json_list_dic_data_response(response_map)
 
     def get_access_token(self, operator_id, payload: dict = None):
