@@ -15,3 +15,16 @@
 == Patrol
 * Crate Patrol for Branch & Organization
 
+
+== Operator
+* Super Admin
+** All operator
+** Organization Dropdown
+** Role Dropdown
+** Branch according to Organization Dropdown
+** Reset password
+
+* Organization Admin
+** Organization operator
+** Branch according to Organization Dropdown
+** Reset password
