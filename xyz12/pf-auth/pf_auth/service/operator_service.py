@@ -163,7 +163,7 @@ class OperatorService(PfRequestResponse):
             refresh_token_processor = refresh_token_processor_class()
             response = refresh_token_processor.process(response_map, jwt_payload, self)
             if response:
-                return response
+                return self.json_list_dic_data_response(response)
         return self.json_list_dic_data_response(response_map)
 
     def is_operator_email_exist(self, email):

@@ -1,0 +1,17 @@
+
+
+== Organization
+
+
+== Device
+* Organization Admin can change device name only
+* Organization User can change their assign branch devices only
+
+
+== Branch
+* Organization Admin can create and change their own branch
+
+
+== Patrol
+* Crate Patrol for Branch & Organization
+
