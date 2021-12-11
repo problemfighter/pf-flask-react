@@ -171,6 +171,12 @@ class OperatorService(PfRequestResponse):
             return True
         return False
 
+    def is_other_operator_email_exist(self, email, id):
+        operator = Operator.query.filter(and_(Operator.email == email, Operator.id != id)).first()
+        if operator:
+            return True
+        return False
+
 
 operator_service = OperatorService()
 
