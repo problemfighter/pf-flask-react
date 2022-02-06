@@ -17,7 +17,8 @@ SYSTEM_DEFAULT_SKIP_URL = [
 SYSTEM_DEFAULT_SKIP_START_WITH_URL = [
     "/favicon.ico",
     "/pf-marshmallow-swagger/",
-    "/static/"
+    "/static/",
+    "/api/v1/checkin/push-checkin/"
 ]
 
 
